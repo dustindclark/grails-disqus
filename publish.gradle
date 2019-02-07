@@ -18,10 +18,10 @@ if(bintrayUser && bintrayKey) {
 		userOrg = 'captivatelabs'
 		//githubSlug = 'foo/bar'
 		license {
-			name = 'Apache'
+			name = 'Apache-2.0'
 		}
-		title = "Grails Disqus Plugin Fork"
-		desc = "This plugin enables the internationalization (i18n) of markdown files, and renders the resulting HTML in GSPs"
+		title = "Grails Disqus Plugin"
+		desc = "This plugin enables Disqus conversations in Grails."
 		developers = [dustindclark: "Dustin D. Clark"]
 		portalUser = grailsPortalUser
 		portalPassword = grailsPortalPassword
