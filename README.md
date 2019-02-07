@@ -12,7 +12,7 @@ Latest Version:[ ![Download](https://api.bintray.com/packages/captivatelabs/plug
 
 Plugin requires the site's shortname option. You can specify it in Config.groovy:
 
-`grails.plugins.disqus.shortname = "mysiteshortname"`
+`grails.plugin.disqus.shortname = "mysiteshortname"`
 
 You can also pass shortname attribute to `disqus:comments` tag. To get shortname visit http://disqus.com/
 
@@ -37,23 +37,23 @@ The Disqus will not work properly until the page will be deployed under the regi
 
 To translate "noscript" message you can add config option:
 
-`grails.plugins.disqus.noscript = "You don't have javascript therefor no comments for you :("`
+`grails.plugin.disqus.noscript = "You don't have javascript therefor no comments for you :("`
 
 
 To change poweredby message you can add config option or just use empty string to remove it:
 
-`grails.plugins.disqus.powered = "Comments powered by Disqus"`
+`grails.plugin.disqus.powered = "Comments powered by Disqus"`
 
 
 Identifier generation can by modified by creating identifier closure in Config.groovy:
 
-`grails.plugins.disqus.identifier = { bean ->
+`grails.plugin.disqus.identifier = { bean ->
     return bean.toString()
 }`
 
 
 Plugin can be disabled by setting enabled = false in config
-`grails.plugins.disqus.enabled = false`
+`grails.plugin.disqus.enabled = false`
 
 
 
