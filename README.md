@@ -6,7 +6,7 @@ It provides embeding [DISQUS](http://disqus.com) commenting system into your Gra
 
 ## Installation
 
-Latest Version:[ ![Download](https://api.bintray.com/packages/captivatelabs/plugins/grails-disqus/images/download.svg) ](https://bintray.com/captivatelabs/plugins/grails-disqus/_latestVersion)
+Latest Version:[ ![Download](https://api.bintray.com/packages/captivatelabs/plugins/disqus/images/download.svg) ](https://bintray.com/captivatelabs/plugins/disqus/_latestVersion)
 
 ## Configuration
 
