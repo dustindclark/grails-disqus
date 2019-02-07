@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gpc/grails-disqus.svg)](https://travis-ci.org/gpc/grails-disqus)
+[![Build Status](https://travis-ci.org/dustindclark/grails-disqus.png?branch=master)](https://travis-ci.org/dustindclark/grails-disqus)
 
 # Grails Disqus plugin
 
@@ -6,7 +6,7 @@ It provides embeding [DISQUS](http://disqus.com) commenting system into your Gra
 
 ## Installation
 
-`grails install-plugin disqus`
+Latest Version:[ ![Download](https://api.bintray.com/packages/captivatelabs/plugins/grails-disqus/images/download.svg) ](https://bintray.com/captivatelabs/plugins/grails-disqus/_latestVersion)
 
 ## Configuration
 

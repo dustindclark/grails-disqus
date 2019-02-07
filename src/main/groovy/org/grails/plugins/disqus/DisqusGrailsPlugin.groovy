@@ -1,4 +1,4 @@
-package org.grails.plugins.disqus.disqus
+package org.grails.plugins.disqus
 
 import grails.plugins.Plugin
 
