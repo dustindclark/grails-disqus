@@ -1,5 +1,5 @@
 package org.grails.plugins.disqus
 
-trait Disqusable {
+trait Disqussable {
     abstract getDisqusId()
 }

@@ -37,7 +37,7 @@ class DisqusTagLib {
         } else if (attrs.bean) {
             def bean = attrs.bean
             def name = bean.class.name
-            def id = bean in Disqusable ? bean.disqusId
+            def id = bean in Disqussable ? bean.disqusId
                     : bean.metaClass.properties.find { it.name == "id" }
                     ? bean.id
                     : bean.hashCode()
