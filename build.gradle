@@ -8,7 +8,14 @@ buildscript {
     }
 }
 
-version "1.0"
+if (System.getenv('TRAVIS_TAG')) {
+    version System.getenv('TRAVIS_TAG')
+} else if(System.getenv('bamboo_version')) {
+    version "${System.getenv('bamboo_version')}.${System.getenv('bamboo_buildNumber')}"
+} else {
+    version = "0.1-SNAPSHOT"
+}
+
 group "org.grails.plugins"
 
 apply plugin:"idea"
@@ -20,6 +27,9 @@ repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
 }
+
+project.ext.isSnapshot =  version.toString().endsWith("-SNAPSHOT")
+apply from:"publish.gradle"
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-logging"
@@ -43,22 +53,4 @@ dependencies {
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
     addResources = true
-}
-// enable if you wish to package this plugin as a standalone application
-bootRepackage.enabled = false
-
-grailsPublish {
-    userOrg = "grails"
-
-    title = "Disqus Plugin"
-    desc  = "Disqus integration for grails"
-    developers = ["gpc": "Grails Plugin Collective", "snimavat": "Sudhir Nimavat"]
-
-    githubSlug = 'gpc/grails-disqus'
-    issueTrackerUrl = 'https://github.com/gpc/grails-disqus/issues'
-    vcsUrl = 'https://github.com/gpc/grails-disqus'
-
-    license {
-        name = 'Apache-2.0'
-    }
 }

@@ -1,0 +1,47 @@
+
+apply plugin:"org.grails.grails-plugin-publish"
+
+String grailsPortalUser = System.getenv("GRAILS_PORTAL_USER") ?: project.hasProperty('grailsPortalUser') ? project.bintrayUser : null
+String grailsPortalPassword = System.getenv("GRAILS_PORTAL_PASSWORD") ?: project.hasProperty('grailsPortalPassword') ? project.bintrayKey : null
+String bintrayUser = System.getenv("BINTRAY_USER") ?: project.hasProperty('bintrayUser') ? project.bintrayUser : null
+String bintrayKey = System.getenv("BINTRAY_KEY") ?: project.hasProperty('bintrayKey') ? project.bintrayKey : null
+String artifactoryUsername = System.getenv("ARTIFACTORY_USER") ?:  project.hasProperty('artifactoryUsername') ? project.artifactoryUsername : null
+String artifactoryPassword = System.getenv("ARTIFACTORY_PASSWORD") ?: project.hasProperty('artifactoryPassword') ? project.artifactoryPassword : null
+
+// enable if you wish to package this plugin as a standalone application
+bootRepackage.enabled = false
+
+if(bintrayUser && bintrayKey) {
+	grailsPublish {
+		user = bintrayUser
+		key = bintrayKey
+		userOrg = 'captivatelabs'
+		//githubSlug = 'foo/bar'
+		license {
+			name = 'Apache'
+		}
+		title = "Grails Disqus Plugin Fork"
+		desc = "This plugin enables the internationalization (i18n) of markdown files, and renders the resulting HTML in GSPs"
+		developers = [dustindclark: "Dustin D. Clark"]
+		portalUser = grailsPortalUser
+		portalPassword = grailsPortalPassword
+		websiteUrl = 'http://www.captivatelabs.com'
+		vcsUrl = 'https://github.com/dustindclark/grails-disqus'
+		issueTrackerUrl = 'https://github.com/dustindclark/grails-disqus/issues'
+	}
+
+}
+
+if(isSnapshot && artifactoryUsername && artifactoryPassword) {
+	publishing {
+		repositories {
+			maven {
+				url "https://repo.captivatelabs.com/grails-plugins"
+				credentials {
+					username artifactoryUsername
+					password artifactoryPassword
+				}
+			}
+		}
+	}
+}

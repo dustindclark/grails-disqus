@@ -1,8 +1,7 @@
 package org.grails.plugins.disqus.disqus
 
-import grails.boot.*
+
 import grails.boot.config.GrailsAutoConfiguration
-import grails.plugins.metadata.*
 
 @PluginSource
 class Application extends GrailsAutoConfiguration {
