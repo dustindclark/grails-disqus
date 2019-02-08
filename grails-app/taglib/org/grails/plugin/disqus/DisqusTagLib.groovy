@@ -87,9 +87,13 @@ class DisqusTagLib implements GrailsConfigurationAware {
     Closure commentsJs = { Map attrs ->
         renderCommentJsIfNecessary(attrs)
     }
+    
+    Closure commentsId = { Map attrs ->
+        renderId(attrs)
+    }
 
     @CompileDynamic
-    Closure commentsId = { Map attrs ->
+    private void renderId(Map attrs) {
         out << getIdentifier(attrs)
     }
 
