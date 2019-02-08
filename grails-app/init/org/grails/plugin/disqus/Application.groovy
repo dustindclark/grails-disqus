@@ -1,4 +1,4 @@
-package org.grails.plugins.disqus.disqus
+package org.grails.plugin.disqus
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

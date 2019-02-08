@@ -5,11 +5,14 @@ import grails.core.GrailsApplication
 import grails.core.support.GrailsConfigurationAware
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+import org.grails.plugin.disqus.Disqussable
 import org.grails.web.gsp.GroovyPagesTemplateRenderer
 
 @CompileStatic
 class DisqusTagLib implements GrailsConfigurationAware {
     static namespace = "disqus"
+    private static final String DISQUS_COMMENT_JS_REQUEST_KEY = "DISQUS_JS_REQ_KEY"
+
     private static boolean isEnabled
     private static boolean showPoweredByText
     private static String defaultShortName
@@ -43,17 +46,6 @@ class DisqusTagLib implements GrailsConfigurationAware {
             throwTagError "Disqus can't be used because shortname is not configured."
         }
 
-        String identifier = null
-        if (attrs.identifier) {
-            identifier = attrs.identifier
-        } else if (identifierClosure) {
-            identifier = identifierClosure(attrs.bean)
-        } else if (attrs.bean) {
-            Object bean = attrs.bean
-            String name = bean.class.name
-            identifier = "${name}#${getBeanId(bean)}"
-        }
-
         String url
         if (attrs.url) {
             url = attrs.url
@@ -67,7 +59,7 @@ class DisqusTagLib implements GrailsConfigurationAware {
                 template: "/templates/disqus/disqus",
                 model   : (Object) [
                         shortname : shortname,
-                        identifier: identifier,
+                        identifier: getIdentifier(attrs),
                         url       : url,
                         title     : title,
                         category  : category,
@@ -77,8 +69,56 @@ class DisqusTagLib implements GrailsConfigurationAware {
         groovyPagesTemplateRenderer.render(getWebRequest(), getPageScope(), renderAttrs, null, getOut())
     }
 
+    Closure commentsLink = { Map attrs, body ->
+        String id = getIdentifier(attrs)
+        attrs.remove('bean')
+        attrs.put('data-disqus-identifier', id)
+        attrs.put('fragment', '#disqus_thread')
+        renderLink(attrs, body)
+        renderCommentJsIfNecessary(attrs)
+    }
+
+    Closure commentsCount = { Map attrs, body ->
+        String id = getIdentifier(attrs)
+        out.write("<span class='disqus-comment-count' data-disqus-identifier='${id}'>${body}</span>".toString())
+        renderCommentJsIfNecessary(attrs)
+    }
+
+    Closure commentsJs = { Map attrs ->
+        String shortname = attrs['shortname'] ? attrs['shortname'].toString() : defaultShortName
+        Map<String, Object> renderAttrs = [
+                template: "/templates/disqus/discussCommentJs",
+                model   : (Object) [
+                        shortname: shortname
+                ]]
+        groovyPagesTemplateRenderer.render(getWebRequest(), getPageScope(), renderAttrs, null, getOut())
+    }
+
     @CompileDynamic
-    String getBeanId(Object bean) {
+    private void renderLink(Map attrs, def body) {
+        link(attrs, body)
+    }
+
+    private void renderCommentJsIfNecessary(Map attrs) {
+        if (!request.getAttribute(DISQUS_COMMENT_JS_REQUEST_KEY)) {
+            request.setAttribute(DISQUS_COMMENT_JS_REQUEST_KEY, true)
+            commentsJs.call(attrs)
+        }
+    }
+
+    private static String getIdentifier(Map attrs) {
+        if (attrs.identifier) {
+            return attrs.identifier
+        }
+        if (identifierClosure) {
+            return identifierClosure(attrs.bean)
+        }
+        String name = attrs.bean.class.name
+        return "${name}#${getBeanId(attrs.bean)}"
+    }
+
+    @CompileDynamic
+    private static String getBeanId(Object bean) {
         return bean in Disqussable ? bean.disqusId
                 : bean.metaClass.properties.find { it.name == "id" }
                 ? bean.id
@@ -94,4 +134,5 @@ class DisqusTagLib implements GrailsConfigurationAware {
         identifierClosure = co.get("grails.plugin.disqus.identifier") ? (Closure) co.get("grails.plugin.disqus.identifier") : null
         urlClosure = co.get("grails.plugin.disqus.url") ? (Closure) co.get("grails.plugin.disqus.url") : null
     }
+
 }

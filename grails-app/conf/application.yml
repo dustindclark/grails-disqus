@@ -2,7 +2,7 @@
 grails:
     profile: web-plugin
     codegen:
-        defaultPackage: org.grails.plugins.disqus
+        defaultPackage: org.grails.plugin.disqus
     spring:
         transactionManagement:
             proxies: false

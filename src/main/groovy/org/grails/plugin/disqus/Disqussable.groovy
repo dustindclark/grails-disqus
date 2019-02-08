@@ -1,4 +1,4 @@
-package org.grails.plugins.disqus
+package org.grails.plugin.disqus
 
 import groovy.transform.CompileStatic
 
