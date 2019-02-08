@@ -85,13 +85,7 @@ class DisqusTagLib implements GrailsConfigurationAware {
     }
 
     Closure commentsJs = { Map attrs ->
-        String shortname = attrs['shortname'] ? attrs['shortname'].toString() : defaultShortName
-        Map<String, Object> renderAttrs = [
-                template: "/templates/disqus/discussCommentJs",
-                model   : (Object) [
-                        shortname: shortname
-                ]]
-        groovyPagesTemplateRenderer.render(getWebRequest(), getPageScope(), renderAttrs, null, getOut())
+        renderCommentJsIfNecessary(attrs)
     }
 
     @CompileDynamic
@@ -102,7 +96,13 @@ class DisqusTagLib implements GrailsConfigurationAware {
     private void renderCommentJsIfNecessary(Map attrs) {
         if (!request.getAttribute(DISQUS_COMMENT_JS_REQUEST_KEY)) {
             request.setAttribute(DISQUS_COMMENT_JS_REQUEST_KEY, true)
-            commentsJs.call(attrs)
+            String shortname = attrs['shortname'] ? attrs['shortname'].toString() : defaultShortName
+            Map<String, Object> renderAttrs = [
+                    template: "/templates/disqus/discussCommentJs",
+                    model   : (Object) [
+                            shortname: shortname
+                    ]]
+            groovyPagesTemplateRenderer.render(getWebRequest(), getPageScope(), renderAttrs, null, getOut())
         }
     }
 
