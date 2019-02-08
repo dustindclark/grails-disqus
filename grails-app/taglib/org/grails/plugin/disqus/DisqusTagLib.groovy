@@ -89,8 +89,13 @@ class DisqusTagLib implements GrailsConfigurationAware {
     }
 
     @CompileDynamic
+    Closure commentsId = { Map attrs ->
+        out << getIdentifier(attrs)
+    }
+
+    @CompileDynamic
     private void renderLink(Map attrs, def body) {
-        link(attrs, body)
+        out << link(attrs, body)
     }
 
     private void renderCommentJsIfNecessary(Map attrs) {
@@ -113,16 +118,18 @@ class DisqusTagLib implements GrailsConfigurationAware {
         if (identifierClosure) {
             return identifierClosure(attrs.bean)
         }
-        String name = attrs.bean.class.name
-        return "${name}#${getBeanId(attrs.bean)}"
+        return getBeanId(attrs.bean)
     }
 
     @CompileDynamic
     private static String getBeanId(Object bean) {
-        return bean in Disqussable ? bean.disqusId
-                : bean.metaClass.properties.find { it.name == "id" }
-                ? bean.id
-                : bean.hashCode()
+        if (bean in Disqussable) {
+            return bean.disqusId
+        }
+        String name = bean.class.name
+        String id = bean.metaClass.properties.find { it.name == "id" }
+                ? bean.id : bean.hashCode()
+        return "${name}#${id}"
     }
 
     @Override
