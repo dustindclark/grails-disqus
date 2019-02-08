@@ -98,7 +98,7 @@ class DisqusTagLib implements GrailsConfigurationAware {
             request.setAttribute(DISQUS_COMMENT_JS_REQUEST_KEY, true)
             String shortname = attrs['shortname'] ? attrs['shortname'].toString() : defaultShortName
             Map<String, Object> renderAttrs = [
-                    template: "/templates/disqus/discussCommentsJs",
+                    template: "/templates/disqus/disqusCommentsJs",
                     model   : (Object) [
                             shortname: shortname
                     ]]
