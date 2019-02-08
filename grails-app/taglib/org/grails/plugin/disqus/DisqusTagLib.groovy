@@ -73,7 +73,7 @@ class DisqusTagLib implements GrailsConfigurationAware {
         String id = getIdentifier(attrs)
         attrs.remove('bean')
         attrs.put('data-disqus-identifier', id)
-        attrs.put('fragment', '#disqus_thread')
+        attrs.put('fragment', 'disqus_thread')
         renderLink(attrs, body)
         renderCommentJsIfNecessary(attrs)
     }
@@ -87,7 +87,7 @@ class DisqusTagLib implements GrailsConfigurationAware {
     Closure commentsJs = { Map attrs ->
         renderCommentJsIfNecessary(attrs)
     }
-    
+
     Closure commentsId = { Map attrs ->
         renderId(attrs)
     }
